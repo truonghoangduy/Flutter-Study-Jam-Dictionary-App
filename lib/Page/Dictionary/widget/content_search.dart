@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_study_jam/Page/Dictionary/model.dart';
 import 'package:flutter_study_jam/config/themes/app_colors.dart';
 import 'package:flutter_study_jam/page/dictionary/widget/meaning_box.dart';
 
 class ContentSearch extends StatefulWidget {
   const ContentSearch(
-      {Key? key,
-      required this.attribute,
-      required this.explanation,
-      required this.example})
+      {Key? key, required this.attribute, required this.wordDefinition})
       : super(key: key);
-  final String attribute, explanation, example;
-
+  final String attribute;
+  final List<Definition> wordDefinition;
   @override
   State<ContentSearch> createState() => _ContentSearchState();
 }
@@ -35,13 +33,13 @@ class _ContentSearchState extends State<ContentSearch> {
             padding: EdgeInsets.symmetric(vertical: 8.h),
             child: Column(
               children: [
-                ...[1, 2].map(
-                  (e) => MeaningBox(
-                    index: e,
-                    example: widget.example,
-                    explanation: widget.explanation,
-                  ),
-                ),
+                ...widget.wordDefinition.asMap().entries.map(
+                      (e) => MeaningBox(
+                        index: e.key,
+                        example: e.value.example!,
+                        explanation: e.value.definition!,
+                      ),
+                    ),
                 SizedBox(
                   //color: Colors.cyan,
                   width: MediaQuery.of(context).size.width,
@@ -64,7 +62,7 @@ class _ContentSearchState extends State<ContentSearch> {
                       Expanded(
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: 3,
+                          itemCount: widget.wordDefinition[0].synonyms?.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: EdgeInsets.only(right: 15.w),
@@ -74,7 +72,7 @@ class _ContentSearchState extends State<ContentSearch> {
                                 ),
                                 backgroundColor: Colors.white,
                                 label: Text(
-                                  'notification',
+                                  widget.wordDefinition[0].synonyms![index],
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 12.sp,

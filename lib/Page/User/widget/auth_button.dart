@@ -13,7 +13,7 @@ class AuthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
     return InkWell(
-      onTap: () => authentication,
+      onTap: () async => await authentication,
 
       // Navigator.pushNamed(context, "DictionaryPage");
 

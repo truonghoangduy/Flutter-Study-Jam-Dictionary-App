@@ -4,7 +4,8 @@ import 'package:flutter_study_jam/Page/Dictionary/services/api_service.dart';
 import 'package:flutter_study_jam/config/themes/app_colors.dart';
 
 class SearchInput extends StatefulWidget {
-  SearchInput({Key? key}) : super(key: key);
+  Function(String) onSubmit;
+  SearchInput({Key? key, required this.onSubmit}) : super(key: key);
 
   @override
   _SearchInputState createState() => _SearchInputState();
@@ -17,9 +18,9 @@ class _SearchInputState extends State<SearchInput> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    searchController.addListener(() {
-      setState(() {});
-    });
+    // searchController.addListener(() {
+    //   setState(() {});
+    // });
   }
 
   @override
@@ -42,7 +43,8 @@ class _SearchInputState extends State<SearchInput> {
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.send,
         onEditingComplete: () {
-          ApiService.getword(searchController.text);
+          widget.onSubmit(searchController.text);
+          // widget.onSubmit(searchController.text);
         },
         decoration: InputDecoration(
           border: InputBorder.none,
