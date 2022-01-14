@@ -62,7 +62,7 @@ class _AudioButtonState extends State<AudioButton> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        audioPlayer.play(widget.url, isLocal: false);
+        audioPlayer.play("https:" + widget.url, isLocal: false);
       },
       child: Container(
         width: 55.sp,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_study_jam/Page/Dictionary/model.dart';
 import 'package:flutter_study_jam/config/themes/app_colors.dart';
+import 'package:flutter_study_jam/page/dictionary/model.dart';
 import 'package:flutter_study_jam/page/dictionary/widget/meaning_box.dart';
 
 class ContentSearch extends StatefulWidget {
@@ -9,7 +9,7 @@ class ContentSearch extends StatefulWidget {
       {Key? key, required this.attribute, required this.wordDefinition})
       : super(key: key);
   final String attribute;
-  final List<Definition> wordDefinition;
+  final List<Definitions> wordDefinition;
   @override
   State<ContentSearch> createState() => _ContentSearchState();
 }
@@ -36,8 +36,8 @@ class _ContentSearchState extends State<ContentSearch> {
                 ...widget.wordDefinition.asMap().entries.map(
                       (e) => MeaningBox(
                         index: e.key,
-                        example: e.value.example!,
-                        explanation: e.value.definition!,
+                        example: e.value.example ?? "",
+                        explanation: e.value.definition ?? "",
                       ),
                     ),
                 SizedBox(

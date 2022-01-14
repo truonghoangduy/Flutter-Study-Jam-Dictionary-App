@@ -1,4 +1,6 @@
-import 'package:flutter_study_jam/Page/Dictionary/model.dart';
+import 'dart:convert';
+
+import 'package:flutter_study_jam/page/dictionary/model.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -6,18 +8,21 @@ class ApiService {
   static const String baseURL =
       'https://api.dictionaryapi.dev/api/v2/entries/en_US/';
 
-  static Future<List<DictModel>> getword(query) async {
+  static Future<DictModel?> getword(query) async {
     final url = Uri.parse("$baseURL$query");
     try {
       final response = await http.get(url);
       if (200 == response.statusCode) {
-        final List<DictModel> word = dictModelFromJson(response.body);
-        return word;
+        var json = jsonDecode(response.body);
+        final DictModel dictModel = DictModel.fromJson(json[0]);
+        return dictModel;
       } else {
-        return List<DictModel>.empty();
+        // Khoong co chu
+        return null;
       }
     } catch (e) {
-      return List<DictModel>.empty();
+      //hhtp error
+      return null;
     }
   }
 }

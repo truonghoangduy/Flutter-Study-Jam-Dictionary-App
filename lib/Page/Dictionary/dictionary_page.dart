@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_study_jam/Page/Dictionary/model.dart';
-import 'package:flutter_study_jam/Page/Dictionary/services/api_service.dart';
-import 'package:flutter_study_jam/Page/Dictionary/widget/search_input.dart';
 import 'package:flutter_study_jam/config/themes/app_colors.dart';
+import 'package:flutter_study_jam/page/dictionary/model.dart';
+import 'package:flutter_study_jam/page/dictionary/services/api_service.dart';
 import 'package:flutter_study_jam/page/dictionary/widget/content_search.dart';
 import 'package:flutter_study_jam/page/dictionary/widget/drawer_widget.dart';
 import 'package:flutter_study_jam/page/dictionary/widget/keyword_search.dart';
 import "package:flutter_study_jam/Services/firebase_auth.dart";
+import 'package:flutter_study_jam/page/dictionary/widget/search_input.dart';
 
 class DictionaryPage extends StatefulWidget {
   const DictionaryPage({Key? key}) : super(key: key);
@@ -73,14 +73,13 @@ class _DictionaryPageState extends State<DictionaryPage> {
       },
       child: Scaffold(
         drawer: DrawerWidget(
-          email: FirebaseAuthService.getCurrentUser().email!,
+          email: "aaa",
           //logout:,
           //logout: logout,
         ),
         appBar: AppBar(
           backgroundColor: AppColors.primaryBuleColor,
           title: const Text(
-            //user!.email.toString(),
             'Dictionary',
             style: TextStyle(color: Colors.white),
           ),
@@ -108,16 +107,16 @@ class _DictionaryPageState extends State<DictionaryPage> {
                 SizedBox(
                   height: 28.h,
                 ),
-                FutureBuilder<List<DictModel>>(
-                    future: ApiService.getword(sreachedText),
+                FutureBuilder<DictModel?>(
+                    future: ApiService.getword(this.sreachedText),
                     builder: (context, snaphot) {
                       if (snaphot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       }
-                      if (snaphot.data!.isEmpty) {
+                      if (!snaphot.hasData) {
                         return const Center(child: Text("No Word found"));
                       }
-                      final model = snaphot.data![0];
+                      final model = snaphot.data!;
                       final menaings = model.meanings!;
                       return Expanded(
                         child: Column(
